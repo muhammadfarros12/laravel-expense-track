@@ -19,6 +19,9 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('categories', App\Livewire\Categories::class)->name('categories.index');
+    Route::get('budgets', App\Livewire\BudgetList::class)->name('budgets.index');
+    Route::get('budget/create', App\Livewire\BudgetForm::class)->name('budgets.create');
+    Route::get('budget/{budgetId}/edit', App\Livewire\BudgetForm::class)->name('budgets.edit');
 
     Route::get('settings/profile', Profile::class)->name('profile.edit');
     Route::get('settings/password', Password::class)->name('user-password.edit');
