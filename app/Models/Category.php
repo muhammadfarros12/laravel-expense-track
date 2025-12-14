@@ -2,17 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'name',
-        'color',
-        'icon',
-    ];
-
+    protected $fillable = ["user_id", "name", "color", "icon"];
 
     public function user()
     {
@@ -32,9 +27,14 @@ class Category extends Model
     public function getTotalSpendForMonth($month, $year)
     {
         return $this->expenses()
-            ->whereMonth('date', $month)
-            ->whereYear('date', $year)
-            ->sum('amount');
+            ->whereMonth("date", $month)
+            ->whereYear("date", $year)
+            ->sum("amount");
     } // mendapatkan total pengeluaran untuk kategori ini dalam bulan dan tahun tertentu
 
+    #[Scope]    
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where("user_id", $userId);
+    }
 }

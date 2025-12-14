@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,6 +54,7 @@ class Expense extends Model {
         return $this->hasMany(Expense::class, 'parent_expense_id');
     }
 
+    // digunakan untuk memfilter expense berdasarkan user (shortcut query yang sering dipakai)
     #[Scope]
     public function scopeForUser($query, $userId)
     {
