@@ -64,7 +64,7 @@ class ExpenseList extends Component
             $query->where(function($q){
                 $q->where('title', 'like', '%'.$this->search.'%')
                 ->orWhere('description', 'like', '%'.$this->search.'%');
-            });
+            }); // bentuk query menjadi: WHERE ('title' LIKE '%search%' OR 'description' LIKE '%search%') AND category_id = 5 // jadi dikelompokkan agar tidak terganggu dengan AND query
         }
 
         if ($this->selectedCategory) {
@@ -75,8 +75,8 @@ class ExpenseList extends Component
             $query->whereDate('date', '>=', $this->startDate);
         }
 
-        if ($this->startDate) {
-            $query->whereDate('date', '<=', $this->startDate);
+        if ($this->endDate) {
+            $query->whereDate('date', '<=', $this->endDate);
         }
 
         return $query->orderBy($this->sortBy, $this->sortDirection)

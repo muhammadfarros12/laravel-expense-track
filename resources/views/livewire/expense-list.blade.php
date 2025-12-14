@@ -82,7 +82,7 @@
                 <div class="mt-4 flex items-center justify-between pt-4 border-t border-gray-200">
                     <div class="text-sm text-gray-600">
                         Showing {{ $expenses->count() }} of {{ $expenses->total() }} expenses
-                        <span class="font-semibold text-gray-900">• Total: ${{ number_format($total, 2) }}</span>
+                        <span class="font-semibold text-gray-900">• Total: Rp{{ number_format($total, 2, ',', '.') }}</span>
                     </div>
                     <button wire:click="clearFilters" class="text-sm text-purple-600 hover:text-purple-700 font-medium">
                         Clear Filters
@@ -175,7 +175,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="text-sm font-bold text-gray-900">
-                                        ${{ number_format($expense->amount, 2) }}
+                                        Rp{{ number_format($expense->amount, 2) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

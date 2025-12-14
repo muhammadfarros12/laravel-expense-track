@@ -15,6 +15,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+    
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
@@ -24,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('budget/{budgetId}/edit', App\Livewire\BudgetForm::class)->name('budgets.edit');
     
     Route::get('expenses', App\Livewire\ExpenseList::class)->name('expenses.index');
+    Route::get('expenses/create', App\Livewire\ExpenseForm::class)->name('expenses.create');
+    Route::get('expenses/{expenseId}/edit', App\Livewire\ExpenseForm::class)->name('expenses.edit');
 
     Route::get('settings/profile', Profile::class)->name('profile.edit');
     Route::get('settings/password', Password::class)->name('user-password.edit');

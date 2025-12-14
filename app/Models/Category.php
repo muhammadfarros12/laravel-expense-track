@@ -24,7 +24,7 @@ class Category extends Model
         return $this->hasMany(Budget::class);
     } // satu kategori bisa memiliki banyak budget
 
-    public function getTotalSpendForMonth($month, $year)
+    public function getTotalSpendForMonth(int $month, int $year)
     {
         return $this->expenses()
             ->whereMonth("date", $month)

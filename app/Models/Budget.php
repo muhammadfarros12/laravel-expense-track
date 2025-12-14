@@ -30,14 +30,19 @@ class Budget extends Model
         return $this->belongsTo(Category::class);
     } // satu budget hanya untuk 1 kategori
 
-    public function getSpendAmount(){
+    public function getSpendAmount(): float{
+        // terdapat issue untuk budget yang tidak memiliki kategori, akan dihitung sebagai semua expense
+        $query = Expense::where('user_id', $this->user_id)
+            ->whereMonth('date', $this->month)
+            ->whereYear('date', $this->year);
+
         if ($this->category_id) {
-            return $this->category->getTotalSpendForMonth($this->month, $this->year);
+            $query->where('category_id', $this->category_id);
+        } else {
+            $query->whereNull('category_id');
         }
 
-        return Expense::forUser($this->user_id)
-            ->inMonth($this->month, $this->year)
-            ->sum('amount');
+        return $query->sum('amount');
     }
 
     public function getRemainingAmount(){
