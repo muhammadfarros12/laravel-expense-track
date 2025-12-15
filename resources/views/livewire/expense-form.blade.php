@@ -37,7 +37,8 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="text-gray-500 text-lg">Rp</span>
                             </div>
-                            <input type="number" id="amount" wire:model="amount" step="1000" min="0" placeholder="0.00"
+                            <input type="number" id="amount" wire:model="amount" step="1000" min="0"
+                                placeholder="0.00"
                                 class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('amount') border-red-500 @enderror">
                         </div>
                         @error('amount')
@@ -77,7 +78,7 @@
                         <select wire:model="category_id" id="category_id"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                             <option value="">Select a category</option>
-                            @foreach($categories as $category)
+                            @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
@@ -92,8 +93,7 @@
                         <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
                             Description
                         </label>
-                        <textarea wire:model="description" id="description" rows="3"
-                            placeholder="Add any additional notes..."
+                        <textarea wire:model="description" id="description" rows="3" placeholder="Add any additional notes..."
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"></textarea>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($type === 'one-time')
+                        @if ($type === 'one-time')
                             <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($type === 'recurring')
+                        @if ($type === 'recurring')
                             <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -161,29 +161,30 @@
                     </label>
                 </div>
 
-                @if($type === 'recurring')
+                @if ($type === 'recurring')
                     <div class="space-y-4 p-4 bg-purple-50 rounded-lg border border-purple-100">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Frequency -->
                             <div>
-                                <label for="recurring_frequency" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="recurrence" class="block text-sm font-medium text-gray-700 mb-2">
                                     Frequency <span class="text-red-500">*</span>
                                 </label>
-                                <select wire:model="recurring_frequency" id="recurring_frequency"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('recurring_frequency') border-red-500 @enderror">
+                                <select wire:model="recurrence" id="recurrence"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('recurrence') border-red-500 @enderror">
                                     <option value="daily">Daily</option>
                                     <option value="weekly">Weekly</option>
                                     <option value="monthly">Monthly</option>
                                     <option value="yearly">Yearly</option>
                                 </select>
-                                @error('recurring_frequency')
+                                @error('recurrence')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <!-- Start Date -->
                             <div>
-                                <label for="recurring_start_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="recurring_start_date"
+                                    class="block text-sm font-medium text-gray-700 mb-2">
                                     Start Date <span class="text-red-500">*</span>
                                 </label>
                                 <input type="date" id="recurring_start_date" wire:model="recurring_start_date"

@@ -101,12 +101,12 @@ class Expense extends Model {
 
     }
 
-    function getNextOccurranceDate() : ?Carbon {
-        if ($this->isRecurring()) {
+    function getNextOccurrenceDate() : ?Carbon {
+        if (!$this->isRecurring()) {
             return null;
         }
 
-        $lastChildExpense = $this->chileExpenses()->orderBy('date', 'desc')->first();
+        $lastChildExpense = $this->childExpenses()->orderBy('date', 'desc')->first();
 
         $baseDate = $lastChildExpense ? $lastChildExpense->date : $this->recurring_start_date;
 
