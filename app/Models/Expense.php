@@ -49,7 +49,7 @@ class Expense extends Model {
         return $this->belongsTo(Expense::class, 'parent_expense_id');
     } // untuk menghubungkan expense berulang dengan expense induknya
 
-    public function chileExpenses()
+    public function childExpenses()
     {
         return $this->hasMany(Expense::class, 'parent_expense_id');
     }
