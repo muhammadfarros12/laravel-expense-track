@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Category;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
+#[Title('Categories - Expense Tracker')]
 class Categories extends Component
 {
 

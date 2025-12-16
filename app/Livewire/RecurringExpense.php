@@ -5,20 +5,22 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Expense;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Recurring Expenses - Expense Tracker')]
 class RecurringExpense extends Component
 {
-    
+
     public $showDeleteModal = false;
     public $expenseToDelete = null;
-    
+
     public function confirmDelete($expenseId)
     {
         $this->expenseToDelete = $expenseId;
         $this->showDeleteModal = true;
     }
-    
+
     public function deleteExpense(){
         if($this->expenseToDelete){
             $expense = Expense::find($this->expenseToDelete);
@@ -28,14 +30,14 @@ class RecurringExpense extends Component
             // digunakan untuk menghapus child expenses
             $expense->childExpenses()->delete();
             $expense->delete();
-            
+
             session()->flash('message', 'Expense deleted successfully');
-            
+
             $this->expenseToDelete = null;
             $this->showDeleteModal = false;
         }
     }
-    
+
     #[Computed]
     public function recurringExpenses(){
         return Expense::with(['category', 'childExpenses'])
@@ -43,14 +45,14 @@ class RecurringExpense extends Component
         ->recurring()
         ->get();
     }
-    
+
     #[Computed]
     public function categories(){
         return Category::where('user_id', auth()->id())
         ->orderBy('name')
         ->get();
     }
-    
+
     public function render()
     {
         return view('livewire.recurring-expense', [

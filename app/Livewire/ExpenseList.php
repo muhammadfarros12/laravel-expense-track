@@ -5,9 +5,11 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Expense;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Title('Expenses - Expense Tracker')]
 class ExpenseList extends Component
 {
     use WithPagination;
@@ -29,7 +31,7 @@ class ExpenseList extends Component
             $this->endDate = now()->endOfMonth()->format('Y-m-d');
         }
     }
-    
+
     // sorting
     public function sortBy($field){
         if ($this->sortBy === $field) {
@@ -39,15 +41,15 @@ class ExpenseList extends Component
             $this->sortDirection = 'desc';
         }
     }
-    
+
     // deleting the expenses
     public function deleteExpense($id){
         $expense = Expense::findOrFail($id);
-        
+
         if($expense->user_id !== auth()->id()){
             abort(403, 'You are not authorized to perform this action.');
         }
-        
+
         $expense->delete();
         session()->flash('success', 'Expense deleted successfully.');
     }
@@ -82,11 +84,11 @@ class ExpenseList extends Component
         return $query->orderBy($this->sortBy, $this->sortDirection)
         ->paginate(10);
     }
-    
+
     #[Computed]
     public function total(){
         $query = Expense::forUser(auth()->id());
-        
+
         if ($this->selectedCategory) {
             $query->where('category_id', $this->selectedCategory);
         }
@@ -98,17 +100,17 @@ class ExpenseList extends Component
         if ($this->startDate) {
             $query->whereDate('date', '<=', $this->startDate);
         }
-        
+
         return $query->sum('amount');
     }
-    
+
     #[Computed]
     public function categories(){
         return Category::forUser(auth()->id())
         ->orderBy('name')
         ->get();
     }
-    
+
     public  function updatingSearch(){
         $this->resetPage();
     }
@@ -121,7 +123,7 @@ class ExpenseList extends Component
     public  function updatingEndDate(){
         $this->resetPage();
     }
-    
+
     public function clearFilters(){
         $this->search = '';
         $this->selectedCategory = '';
@@ -129,7 +131,7 @@ class ExpenseList extends Component
         $this->endDate = now()->endOfMonth()->format('Y-m-d');
         $this->resetPage();
     }
- 
+
 
 
     public function render()

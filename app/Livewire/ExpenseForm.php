@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Log;
 
-#[Title('Expense - Expense Form')]
+#[Title('Expense Form - Expense Tracker')]
 class ExpenseForm extends Component
 {
 

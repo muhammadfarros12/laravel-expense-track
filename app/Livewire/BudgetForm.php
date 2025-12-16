@@ -7,7 +7,9 @@ use App\Models\Category;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
+#[Title('Budget Form - Expense Tracker')]
 class BudgetForm extends Component
 {
     public $budgetId;

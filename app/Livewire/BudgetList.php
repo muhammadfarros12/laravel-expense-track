@@ -6,7 +6,9 @@ use App\Models\Budget;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
+#[Title('Budget - Expense Tracker')]
 class BudgetList extends Component
 {
 
