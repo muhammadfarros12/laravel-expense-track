@@ -125,7 +125,7 @@
                                <div>
                                    <div class="font-medium text-gray-800">{{ $category->name }}</div>
                                    <div class="text-sm text-gray-500">
-                                       {{ round(($category->total  / $totalSpent) * 100, 1) }}% of total
+                                    {{ $totalSpent > 0 ? round(($category->total / $totalSpent) * 100, 1) : 0 }}% of total
                                    </div>
                                </div>
                            </div>
