@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Exception;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
 
 class BudgetAIService
 {
@@ -40,15 +39,22 @@ class BudgetAIService
 
             return $this->parseAIResponse($response->text(), $historicalData);
         } catch (Exception $e) {
+            $errorMessage = $this->formatAIErrorMessage($e->getMessage());
+
             Log::error('Budget AI Recomendation Error', [
                 'message' => $e->getMessage(),
+                'friendly_message' => $errorMessage,
                 'user_id' => $userId,
                 'month' => $targetMonth,
                 'year' => $targetYear,
                 'category_id' => $categoryId,
             ]);
 
-            throw new RuntimeException($this->formatAIErrorMessage($e->getMessage()), 0, $e);
+            $fallbackRecommendation = $this->getFallbackRecommendation($historicalData);
+            $fallbackRecommendation['warning'] = $errorMessage;
+            $fallbackRecommendation['source'] = 'fallback';
+
+            return $fallbackRecommendation;
         }
     }
 
@@ -226,6 +232,7 @@ class BudgetAIService
             'explanation' => 'Based on your historical average spending.',
             'tip' => 'Consider reviewing your expenses to identify areas for savings.',
             'confidence' => $this->calculateConfidence($historicalData),
+            'source' => 'historical',
         ];
     }
 
@@ -261,6 +268,7 @@ class BudgetAIService
             'explanation' => $explanation,
             'tip' => $tip,
             'confidence' => $this->calculateConfidence($historicalData),
+            'source' => 'ai',
         ];
     }
 

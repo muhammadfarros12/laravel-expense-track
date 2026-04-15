@@ -116,6 +116,12 @@
                             </div>
                             @endif
 
+                            @if (session()->has('ai-warning'))
+                            <div class="mb-4 p-3 bg-amber-100 text-amber-800 rounded">
+                                {{ session('ai-warning') }}
+                            </div>
+                            @endif
+
                             <!-- AI Recommendation Button -->
                             @if($hasHistoricalData && $month && $year && !$isEdit)
                                 <button type="button"

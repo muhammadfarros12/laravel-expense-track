@@ -209,6 +209,10 @@ class BudgetForm extends Component
             if ($recomendation) {
                 $this->aiRecommendation = $recomendation;
                 $this->showAIRecommendation = true;
+
+                if (! empty($recomendation['warning'])) {
+                    session()->flash('ai-warning', $recomendation['warning']);
+                }
             } else {
                 session()->flash('ai-error', 'No historical expense data found for the selected period.');
                 \Log::info('AI RECOMMENDATION RESULT', [
@@ -250,6 +254,7 @@ class BudgetForm extends Component
     {
         $this->aiRecommendation = null;
         $this->showAIRecommendation = false;
+        session()->forget('ai-warning');
     }
 
     public function render()

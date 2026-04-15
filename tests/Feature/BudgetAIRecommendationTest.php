@@ -126,7 +126,7 @@ it('rejects budgets that use another users category', function () {
         ->assertHasErrors(['category_id']);
 });
 
-it('surfaces a clearer message when gemini quota is exceeded', function () {
+it('falls back to historical recommendation when gemini quota is exceeded', function () {
     $user = User::factory()->create();
     $category = Category::create([
         'user_id' => $user->id,
@@ -156,10 +156,15 @@ it('surfaces a clearer message when gemini quota is exceeded', function () {
         }
     });
 
-    expect(fn () => app(BudgetAIService::class)->getBudgetRecomendation(
+    $recommendation = app(BudgetAIService::class)->getBudgetRecomendation(
         $category->id,
         $user->id,
         4,
         2025,
-    ))->toThrow('Gemini quota exceeded. Check quota or billing in Google AI Studio, then try again.');
+    );
+
+    expect($recommendation)->not->toBeNull()
+        ->and($recommendation['source'])->toBe('fallback')
+        ->and($recommendation['recommended'])->toBe(91666.67)
+        ->and($recommendation['warning'])->toBe('Gemini quota exceeded. Check quota or billing in Google AI Studio, then try again.');
 });
